@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:translator/translator.dart';
 import 'package:translated_api_app/data/model/post_model.dart';
 
-
 class PostRepository {
+  final translator = GoogleTranslator(); // unofficial translator
+
+  // Fetch only 2 posts
   Future<List<Post>> fetchPosts() async {
     final response = await http.get(Uri.parse('https://dummyjson.com/posts'));
-    
+
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       final posts = data['posts'] as List;
@@ -16,29 +19,14 @@ class PostRepository {
     }
   }
 
+  // Translate to Bangla using unofficial Google Translate
   Future<String> translateToBangla(String text) async {
-  final url = Uri.parse('https://libretranslate.de/translate');
-  try {
-    final response = await http
-        .post(
-          url,
-          headers: {'Content-Type': 'application/json'},
-          body: json.encode({
-            'q': text,
-            'source': 'auto',
-            'target': 'bn',
-          }),
-        )
-        .timeout(const Duration(seconds: 10)); // ⏱️ Timeout added
-
-    if (response.statusCode == 200) {
-      return json.decode(response.body)['translatedText'] ?? text;
+    try {
+      final result = await translator.translate(text, to: 'bn');
+      return result.text;
+    } catch (e) {
+      print('🔴 Translation failed: $e');
+      return text; // fallback
     }
-  } catch (e) {
-    print('🔴 Translation API error: $e');
   }
-
-  return text; // Fallback to original if failed
-}
-
 }
