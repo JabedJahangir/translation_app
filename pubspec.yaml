@@ -1,0 +1,24 @@
+
+name: translated_api_app
+description: A Flutter app that translates API data using GetX and LibreTranslate.
+
+publish_to: 'none'
+
+environment:
+  sdk: '>=2.18.0 <3.0.0'
+
+dependencies:
+  cached_network_image: ^3.3.1
+  flutter:
+    sdk: flutter
+  get: ^4.6.6
+  http: ^0.13.6
+  intl: ^0.20.2
+  translator: ^0.1.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
