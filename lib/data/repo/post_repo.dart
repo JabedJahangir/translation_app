@@ -6,7 +6,7 @@ import 'package:translated_api_app/data/model/post_model.dart';
 class PostRepository {
   final translator = GoogleTranslator(); // unofficial translator
 
-  // Fetch only 2 posts
+  
   Future<List<Post>> fetchPosts() async {
     final response = await http.get(Uri.parse('https://dummyjson.com/posts'));
 

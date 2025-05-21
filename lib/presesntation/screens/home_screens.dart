@@ -15,11 +15,8 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.translate),
             onPressed: () {
-              // Toggle locale
               final isBangla = Get.locale?.languageCode == 'bn';
               Get.updateLocale(isBangla ? Locale('en', 'US') : Locale('bn', 'BD'));
-
-              // Translate content
               controller.toggleTranslation();
             },
           ),
@@ -29,14 +26,12 @@ class HomeScreen extends StatelessWidget {
         if (controller.isLoading.value) {
           return Center(child: CircularProgressIndicator());
         }
-
         if (controller.isError.value) {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('error'.tr),
-                SizedBox(height: 8),
                 ElevatedButton(
                   onPressed: () => controller.fetchPosts(),
                   child: Text('retry'.tr),
@@ -45,11 +40,9 @@ class HomeScreen extends StatelessWidget {
             ),
           );
         }
-
         if (controller.posts.isEmpty) {
           return Center(child: Text('noPosts'.tr));
         }
-
         return ListView.builder(
           itemCount: controller.posts.length,
           itemBuilder: (context, index) {
@@ -62,6 +55,14 @@ class HomeScreen extends StatelessWidget {
                   post.body.length > 100
                       ? '${post.body.substring(0, 100)}...'
                       : post.body,
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Chip(label: Text('👍 ${post.reactions['likes'] ?? 0}')),
+                    SizedBox(width: 4),
+                    Chip(label: Text('👎 ${post.reactions['dislikes'] ?? 0}')),
+                  ],
                 ),
                 onTap: () => Get.to(
                   () => PostDetailScreen(post: post),

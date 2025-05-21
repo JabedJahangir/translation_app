@@ -53,12 +53,16 @@ class PostController extends GetxController {
             title: translatedTitle,
             body: translatedBody,
             userId: post.userId,
+            tags: post.tags,                       // ✅ Preserving tags
+            reactions: post.reactions,             // ✅ Preserving reactions
           );
         }).toList());
 
         posts.assignAll(translatedPosts);
       } catch (e) {
         print('❌ Error translating posts: $e');
+        isError.value = true;
+        errorMessage.value = e.toString();
       } finally {
         isLoading(false);
       }

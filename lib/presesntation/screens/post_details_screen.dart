@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:translated_api_app/data/model/post_model.dart';
 
 class PostDetailScreen extends StatelessWidget {
@@ -22,6 +23,16 @@ class PostDetailScreen extends StatelessWidget {
             SizedBox(height: 16),
             Text(
               post.body,
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 16),
+            Wrap(
+              spacing: 8,
+              children: post.tags.map((tag) => Chip(label: Text(tag))).toList(),
+            ),
+            SizedBox(height: 16),
+            Text(
+              '${'reactions'.tr} - 👍 ${post.reactions['likes'] ?? 0}, 👎 ${post.reactions['dislikes'] ?? 0}',
               style: TextStyle(fontSize: 16),
             ),
           ],
